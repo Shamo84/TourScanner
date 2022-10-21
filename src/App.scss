@@ -1,0 +1,38 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+#kitten-gallery {
+  .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+    justify-content: center;
+    gap: 20px;
+    max-width: 1300px;
+    margin-inline: auto;
+    .card {
+      img {
+        width: 300px;
+        height: 272px;
+        object-fit: cover;
+      }
+      #img-text {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-inline: 3px;
+        svg {
+          margin-top: 3px;
+        }
+        h2 {
+          overflow: hidden;
+          display: -webkit-box !important;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          max-width: 90%;
+        }
+      }
+    }
+  }
+}
