@@ -1,72 +1,74 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import axios from 'axios';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
-import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
-function SimpleDialog({ onClose, selectedValue, open, itemNumber }) {
-  const handleClose = () => {
-    onClose(selectedValue);
+export default function SimpleDialog({
+  open,
+  setOpenDialog,
+  imageNumber,
+  updateTabs,
+  currentImgId,
+}) {
+  const [input, setInput] = useState('');
+  const [disableButton, setDisableButton] = useState(false);
+
+  const onClose = () => {
     console.log('close');
-  };
-
-  const handleListItemClick = value => {
-    onClose(value);
-  };
-
-  return (
-    <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>
-        This image has been bookmarked {itemNumber} time
-        {itemNumber > 1 ? 's' : ''}
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText id='alert-dialog-slide-description'>
-          What folder do you wish to save the image in?
-        </DialogContentText>
-        <TextField
-          autoFocus
-          margin='dense'
-          id='name'
-          label='Folder Name'
-          fullWidth
-          variant='standard'
-        />
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-};
-
-export default function SimpleDialogDemo({ open, itemNumber, setOpenDialog }) {
-  const [selectedValue, setSelectedValue] = React.useState(null);
-
-  const handleClose = value => {
-    setSelectedValue(value);
     setOpenDialog(false);
+    setInput('');
+  };
+
+  const handleSendFolderName = () => {
+    setDisableButton(true);
+    axios
+      .post(`https://tourscanner.com/interview/save_image/${currentImgId}`)
+      .then(res => {
+        setDisableButton(false);
+        console.log(res);
+        updateTabs(input);
+        setOpenDialog(false);
+        localStorage.setItem(input, currentImgId);
+        setInput('');
+      });
   };
 
   return (
-    <div>
-      <Typography variant='subtitle1' component='div'>
-        Selected: {selectedValue}
-      </Typography>
-      <br />
-      <SimpleDialog
-        selectedValue={selectedValue}
-        open={open}
-        onClose={handleClose}
-        itemNumber={itemNumber}
-      />
-    </div>
+    <>
+      <Dialog onClose={onClose} open={open}>
+        <DialogTitle>
+          This image has been bookmarked {imageNumber} time
+          {imageNumber === 1 ? '' : 's'}
+        </DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin='dense'
+            id='name'
+            label='What folder do you wish to save the image in?'
+            fullWidth
+            variant='standard'
+            placeholder='Folder Name'
+            value={input}
+            onChange={e => {
+              setInput(e.target.value);
+            }}
+          />
+          <DialogActions>
+            <Button
+              disabled={disableButton}
+              autoFocus
+              onClick={handleSendFolderName}
+            >
+              SEND
+            </Button>
+          </DialogActions>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

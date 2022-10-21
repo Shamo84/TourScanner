@@ -1,16 +1,47 @@
+$primary: crimson;
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 #kitten-gallery {
-  .container {
+  width: 90%;
+  margin-inline: auto;
+  max-width: 1320px;
+  padding-block: 30px;
+  background-color: antiquewhite;
+  h1 {
+    font-size: 48px;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  #tab-container {
+    margin-inline: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: -1px;
+    > div {
+      padding: 15px;
+      border: 1px solid $primary;
+      cursor: pointer;
+      &.active {
+        background-color: $primary;
+        color: white;
+      }
+      &:not(.active):hover {
+        background-color: lightyellow;
+      }
+    }
+  }
+  #cards-wrapper {
     display: grid;
     grid-template-columns: repeat(auto-fill, 300px);
     justify-content: center;
     gap: 20px;
-    max-width: 1300px;
     margin-inline: auto;
+    padding-block: 30px;
+    border-top: 1px solid $primary;
     .card {
       img {
         width: 300px;
