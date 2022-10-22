@@ -12,9 +12,9 @@ export default function SimpleDialog({
   open,
   setOpenDialog,
   imageNumber,
-  updateTabs,
   currentImgId,
   savedFolders,
+  updateFromStorage,
 }) {
   const [input, setInput] = useState('');
   const [disableButton, setDisableButton] = useState(false);
@@ -30,24 +30,24 @@ export default function SimpleDialog({
     axios
       .post(`https://tourscanner.com/interview/save_image/${currentImgId}`)
       .then(response => {
-        setInput('');
         if (response.data.success) {
           setServerResponse('SUCCESS');
-          updateTabs(input, currentImgId);
           localStorage.setItem(
             'folders',
             JSON.stringify(merge(savedFolders, { [input]: [currentImgId] }))
           );
+          updateFromStorage();
         } else {
           setServerResponse('FAILURE');
         }
         setTimeout(() => {
           setOpenDialog(false);
           setDisableButton(false);
-        }, 1000);
+          setInput('');
+        }, 800);
         setTimeout(() => {
           setServerResponse('');
-        }, 1200);
+        }, 1000);
       })
       .catch(error => console.error(error));
   };
@@ -55,7 +55,7 @@ export default function SimpleDialog({
   return (
     <Dialog onClose={onClose} open={open}>
       {serverResponse !== '' ? (
-        <DialogTitle>The operation was a {serverResponse}</DialogTitle>
+        <DialogTitle>The operation was a {serverResponse}!</DialogTitle>
       ) : (
         <>
           <DialogTitle>

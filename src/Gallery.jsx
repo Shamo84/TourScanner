@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import axios from 'axios';
 import SimpleDialog from './SimpleDialog';
-const merge = require('deepmerge');
 
 export default function Gallery() {
   const [cats, setCats] = useState([]);
@@ -13,23 +12,28 @@ export default function Gallery() {
   const [savedFolders, setSavedFolders] = useState({});
   const [fixedTabs, setFixedTabs] = useState(false);
 
+  const handleScroll = () => {
+    if (window.scrollY > 180) {
+      setFixedTabs(true);
+    } else {
+      setFixedTabs(false);
+    }
+  };
+
+  const updateFromStorage = () => {
+    let storageFolders = JSON.parse(localStorage.getItem('folders'));
+    storageFolders = storageFolders ? storageFolders : {};
+    setSavedFolders(storageFolders);
+  };
+
   useEffect(() => {
-    let newFolders = JSON.parse(localStorage.getItem('folders'));
-    newFolders = newFolders ? newFolders : {};
-    setSavedFolders(prev => merge(prev, newFolders));
+    updateFromStorage();
     axios
       .get(`https://tourscanner.com/interview/images`)
       .then(response => {
         setCats(response.data);
       })
       .catch(error => console.error(error));
-    const handleScroll = () => {
-      if (window.scrollY > 180) {
-        setFixedTabs(true);
-      } else {
-        setFixedTabs(false);
-      }
-    };
 
     window.addEventListener('scroll', handleScroll);
 
@@ -47,10 +51,6 @@ export default function Gallery() {
         setOpenDialog(true);
       })
       .catch(error => console.error(error));
-  };
-
-  const updateTabs = (newFolder, image_id) => {
-    setSavedFolders(prev => merge(prev, { [newFolder]: [image_id] }));
   };
 
   return (
@@ -93,9 +93,10 @@ export default function Gallery() {
                   {...cat}
                   key={cat.image_id}
                   bookmarkImg={bookmarkImg}
-                  bookmarked={Object.values(savedFolders)
-                    .flat()
-                    .includes(cat.image_id)}
+                  parentFolder={Object.keys(savedFolders).find(key =>
+                    savedFolders[key].includes(cat.image_id)
+                  )}
+                  activeFolder={activeFolder}
                 />
               );
             })}
@@ -105,9 +106,9 @@ export default function Gallery() {
         open={openDialog}
         setOpenDialog={setOpenDialog}
         imageNumber={imageNumber}
-        updateTabs={updateTabs}
         currentImgId={currentImgId}
         savedFolders={savedFolders}
+        updateFromStorage={updateFromStorage}
       />
     </div>
   );

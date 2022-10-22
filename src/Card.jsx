@@ -6,11 +6,15 @@ export default function Card({
   title,
   url,
   bookmarkImg,
-  bookmarked,
+  parentFolder,
+  activeFolder,
 }) {
   return (
-    <div className={`card ${bookmarked ? 'bookmarked' : ''}`}>
+    <div className={`card ${parentFolder ? 'bookmarked' : ''}`}>
       <img src={url} alt='no img' onClick={() => bookmarkImg(image_id)} />
+      {parentFolder && activeFolder === 'all images' && (
+        <div className='folder'>{parentFolder}</div>
+      )}
       <div id='img-text'>
         <FaArrowRight />
         <h2>{title}</h2>
