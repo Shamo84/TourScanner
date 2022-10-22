@@ -78,26 +78,28 @@ export default function Gallery() {
           })}
         </div>
       </div>
-      <div id='cards-wrapper'>
-        {cats
-          .filter(cat => {
-            return (
-              activeFolder === 'all images' ||
-              savedFolders[activeFolder].includes(cat.image_id)
-            );
-          })
-          .map(cat => {
-            return (
-              <Card
-                {...cat}
-                key={cat.image_id}
-                bookmarkImg={bookmarkImg}
-                bookmarked={Object.values(savedFolders)
-                  .flat()
-                  .includes(cat.image_id)}
-              />
-            );
-          })}
+      <div id='cards-container'>
+        <div id='cards-wrapper'>
+          {cats
+            .filter(cat => {
+              return (
+                activeFolder === 'all images' ||
+                savedFolders[activeFolder].includes(cat.image_id)
+              );
+            })
+            .map(cat => {
+              return (
+                <Card
+                  {...cat}
+                  key={cat.image_id}
+                  bookmarkImg={bookmarkImg}
+                  bookmarked={Object.values(savedFolders)
+                    .flat()
+                    .includes(cat.image_id)}
+                />
+              );
+            })}
+        </div>
       </div>
       <SimpleDialog
         open={openDialog}

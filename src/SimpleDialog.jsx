@@ -21,7 +21,6 @@ export default function SimpleDialog({
   const [serverResponse, setServerResponse] = useState('');
 
   const onClose = () => {
-    console.log('close');
     setOpenDialog(false);
     setInput('');
   };
@@ -56,7 +55,7 @@ export default function SimpleDialog({
   return (
     <Dialog onClose={onClose} open={open}>
       {serverResponse !== '' ? (
-        <DialogTitle>Server response was a {serverResponse}</DialogTitle>
+        <DialogTitle>The operation was a {serverResponse}</DialogTitle>
       ) : (
         <>
           <DialogTitle>
@@ -76,6 +75,11 @@ export default function SimpleDialog({
               onChange={e => {
                 setInput(e.target.value);
               }}
+              onKeyUp={key =>
+                key.code.includes('Enter') && input.trim()
+                  ? handleSendFolderName()
+                  : ''
+              }
             />
             <DialogActions>
               <Button
