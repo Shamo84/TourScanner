@@ -10,6 +10,10 @@ $secondary: antiquewhite;
   margin-inline: auto;
   padding-top: 30px;
   min-width: 400px;
+  #ciccio {
+    width: 100px;
+    height: 100px;
+  }
   h1 {
     font-size: 48px;
     text-align: center;
@@ -58,7 +62,7 @@ $secondary: antiquewhite;
       padding-block: 30px;
       .card {
         position: relative;
-        img {
+        > img {
           width: 300px;
           height: 272px;
           object-fit: cover;
@@ -72,14 +76,15 @@ $secondary: antiquewhite;
           }
         }
         .folder {
-          color: white;
-          text-shadow: 1px 1px black;
+          text-shadow: 1px 1px white;
           position: absolute;
-          top: 10px;
+          top: 8px;
           right: 10px;
-          background-color: rgba($secondary, 0.8);
-          border-radius: 15px;
-          padding: 5px 10px;
+          padding: 5px;
+          background-position: center;
+          background-size: 100% 100%;
+          border-bottom-right-radius: 3px;
+          border-bottom-left-radius: 3px;
         }
         #img-text {
           display: flex;
@@ -99,7 +104,7 @@ $secondary: antiquewhite;
           }
         }
         &.bookmarked {
-          img {
+          > img {
             cursor: auto;
             pointer-events: none;
           }

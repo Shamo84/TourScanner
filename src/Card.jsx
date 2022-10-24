@@ -21,7 +21,14 @@ export default function Card({
     >
       <img src={url} alt='no img' onClick={() => bookmarkImg(image_id)} />
       {parentFolder && activeFolder === 'all images' && (
-        <div className='folder'>{parentFolder}</div>
+        <div
+          className='folder'
+          style={{
+            backgroundImage: 'url(/folder.png)',
+          }}
+        >
+          {parentFolder}
+        </div>
       )}
       <div id='img-text'>
         <FaArrowRight />
