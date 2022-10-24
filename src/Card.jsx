@@ -10,7 +10,15 @@ export default function Card({
   activeFolder,
 }) {
   return (
-    <div className={`card ${parentFolder ? 'bookmarked' : ''}`}>
+    <div
+      className={`card ${
+        parentFolder && activeFolder === 'all images'
+          ? 'bookmarked'
+          : parentFolder
+          ? 'noPointer'
+          : ''
+      }`}
+    >
       <img src={url} alt='no img' onClick={() => bookmarkImg(image_id)} />
       {parentFolder && activeFolder === 'all images' && (
         <div className='folder'>{parentFolder}</div>
