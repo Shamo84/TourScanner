@@ -44,10 +44,10 @@ export default function SimpleDialog({
           setOpenDialog(false);
           setDisableButton(false);
           setInput('');
-        }, 800);
+        }, 600);
         setTimeout(() => {
           setServerResponse('');
-        }, 1000);
+        }, 800);
       })
       .catch(error => console.error(error));
   };

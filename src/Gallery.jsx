@@ -26,6 +26,21 @@ export default function Gallery() {
     setSavedFolders(storageFolders);
   };
 
+  const deleteImage = (parentFolder, image_id) => {
+    const tempElements = savedFolders[parentFolder].filter(
+      element => element !== image_id
+    );
+
+    const tempFolders = { ...savedFolders, [parentFolder]: tempElements };
+
+    if (tempElements.length === 0) {
+      setActiveFolder('all images');
+      delete tempFolders[parentFolder];
+    }
+    localStorage.setItem('folders', JSON.stringify(tempFolders));
+    updateFromStorage();
+  };
+
   useEffect(() => {
     updateFromStorage();
     axios
@@ -97,6 +112,7 @@ export default function Gallery() {
                     savedFolders[key].includes(cat.image_id)
                   )}
                   activeFolder={activeFolder}
+                  deleteImage={deleteImage}
                 />
               );
             })}

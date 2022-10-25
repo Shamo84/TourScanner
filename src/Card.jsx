@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaArrowRight } from 'react-icons/fa';
+import { GiCrossMark } from 'react-icons/gi';
 
 export default function Card({
   image_id,
@@ -8,6 +9,7 @@ export default function Card({
   bookmarkImg,
   parentFolder,
   activeFolder,
+  deleteImage,
 }) {
   return (
     <div
@@ -20,14 +22,20 @@ export default function Card({
       }`}
     >
       <img src={url} alt='no img' onClick={() => bookmarkImg(image_id)} />
-      {parentFolder && activeFolder === 'all images' && (
-        <div
-          className='folder'
-          style={{
-            backgroundImage: 'url(/folder.png)',
-          }}
-        >
-          {parentFolder}
+      {parentFolder && (
+        <div className='icon'>
+          {activeFolder === 'all images' ? (
+            <div
+              className='folder'
+              style={{
+                backgroundImage: 'url(/folder.png)',
+              }}
+            >
+              {parentFolder}
+            </div>
+          ) : (
+            <GiCrossMark onClick={() => deleteImage(parentFolder, image_id)} />
+          )}
         </div>
       )}
       <div id='img-text'>

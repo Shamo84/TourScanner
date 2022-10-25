@@ -71,16 +71,30 @@ $secondary: antiquewhite;
             transform: scale(1.02);
           }
         }
-        .folder {
-          text-shadow: 1px 1px white;
+        .icon {
           position: absolute;
           top: 8px;
           right: 10px;
-          padding: 5px;
-          background-position: center;
-          background-size: 100% 100%;
-          border-bottom-right-radius: 3px;
-          border-bottom-left-radius: 3px;
+
+          .folder {
+            text-shadow: 1px 1px white;
+            padding: 5px;
+            background-position: center;
+            background-size: 100% 100%;
+            border-bottom-right-radius: 3px;
+            border-bottom-left-radius: 3px;
+            pointer-events: none;
+          }
+          svg {
+            color: $primary;
+            filter: drop-shadow(2px 2px 1px $secondary);
+            height: 30px;
+            width: 30px;
+            cursor: pointer;
+            &:hover {
+              filter: brightness(2) drop-shadow(2px 2px 1px $secondary);
+            }
+          }
         }
         #img-text {
           display: flex;
