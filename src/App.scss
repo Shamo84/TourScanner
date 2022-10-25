@@ -166,3 +166,18 @@ $secondary: antiquewhite;
     }
   }
 }
+.MuiDialog-root {
+  ul#folder-list {
+    list-style: none;
+    margin-top: 20px;
+    padding-inline: 10px;
+    li {
+      cursor: pointer;
+      padding: 10px 10px 0;
+      width: fit-content;
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+}

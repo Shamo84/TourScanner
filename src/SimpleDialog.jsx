@@ -81,6 +81,16 @@ export default function SimpleDialog({
                   : ''
               }
             />
+            {Object.keys(savedFolders).length > 0 && (
+              <ul id='folder-list'>
+                Existing Folders:
+                {Object.keys(savedFolders).map((folder, i) => (
+                  <li key={i} onClick={() => setInput(folder)}>
+                    - {folder}
+                  </li>
+                ))}
+              </ul>
+            )}
             <DialogActions>
               <Button
                 disabled={disableButton || !input.trim()}
