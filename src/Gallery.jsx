@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import axios from 'axios';
 import SimpleDialog from './SimpleDialog';
+import { BsX } from 'react-icons/bs';
 
 export default function Gallery() {
   const [cats, setCats] = useState([]);
@@ -24,6 +25,18 @@ export default function Gallery() {
     let storageFolders = JSON.parse(localStorage.getItem('folders'));
     storageFolders = storageFolders ? storageFolders : {};
     setSavedFolders(storageFolders);
+  };
+
+  const deleteFolder = folder => {
+    const tempFolders = { ...savedFolders };
+
+    setActiveFolder('all images');
+    delete tempFolders[folder];
+
+    console.log(activeFolder);
+
+    localStorage.setItem('folders', JSON.stringify(tempFolders));
+    updateFromStorage();
   };
 
   const deleteImage = (parentFolder, image_id) => {
@@ -88,6 +101,12 @@ export default function Gallery() {
                 onClick={() => setActiveFolder(folder)}
               >
                 {folder}
+                <BsX
+                  onClick={event => {
+                    event.stopPropagation();
+                    return deleteFolder(folder);
+                  }}
+                />
               </div>
             );
           })}
@@ -99,7 +118,7 @@ export default function Gallery() {
             .filter(cat => {
               return (
                 activeFolder === 'all images' ||
-                savedFolders[activeFolder].includes(cat.image_id)
+                savedFolders[activeFolder]?.includes(cat.image_id)
               );
             })
             .map(cat => {

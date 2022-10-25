@@ -29,6 +29,7 @@ $secondary: antiquewhite;
         border: 1px solid $primary;
         cursor: pointer;
         background-color: $secondary;
+        position: relative;
         &:first-child {
           border-top-left-radius: 5px;
         }
@@ -41,6 +42,18 @@ $secondary: antiquewhite;
         }
         &:not(.active):hover {
           background-color: lightyellow;
+        }
+        &:hover svg {
+          display: block;
+        }
+        svg {
+          position: absolute;
+          top: 2px;
+          right: 2px;
+          display: none;
+          &:hover {
+            transform: scale(1.4);
+          }
         }
       }
     }
