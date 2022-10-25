@@ -33,8 +33,6 @@ export default function Gallery() {
     setActiveFolder('all images');
     delete tempFolders[folder];
 
-    console.log(activeFolder);
-
     localStorage.setItem('folders', JSON.stringify(tempFolders));
     updateFromStorage();
   };
